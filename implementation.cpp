@@ -13,16 +13,23 @@ using namespace std;
 //////////////class persoon////////////////////////////
 void persoon::vul_persoon(int *getal){
 	int i;
-	int aantal_letters=rand() % NAAM_LEN;
+	int aantal_letters=NAAM_LEN;//rand() % NAAM_LEN;
 
 	nummer=*getal;
 	for(i=0;i<aantal_letters; i++)
-		naam[i]='A' + rand() % 26;
+		naam[i]='1' + rand() % 9;
 	naam[i]=0;
 }
 
 void persoon::show_persoon(){
 	cout<<naam<<endl;
+}
+void persoon::give_persoon(char *naam){//plaatst naam in object
+	strncpy(this->naam,naam,NAAM_LEN);
+}
+void persoon::return_persoon(char *naam){//geeft naam terug uit object
+	strncpy(naam,this->naam,NAAM_LEN);
+
 }
 //////////////class personen///////////////////////////
 personen::personen(int max_personen){//constructor 2, max wordt meegegeven tijdens decl. van een var van t typer persoon.
@@ -65,6 +72,27 @@ sig personen::show_tabel2(){
 		return okS;
 }
 
+sig personen::sort_bubble(){
+	char hold[NAAM_LEN],naam1[NAAM_LEN],naam2[NAAM_LEN];
+
+	for(int passes=0;passes<max_personen-1;passes++){
+			for(int n=0;n<max_personen-passes-1;n++){
+					tabel1[n].return_persoon(naam1);
+					tabel1[n+1].return_persoon(naam2);
+
+					cout<<"naam 1 "<<naam1<<endl;
+					cout<<"naam 2 "<<naam2<<endl;
+
+				if (naam1[NAAM_LEN] > naam2[NAAM_LEN]){
+				//if ((tabel1[n].return_persoon()) > (tabel1[n+1].return_persoon())){
+					tabel1[n].return_persoon(hold);
+					tabel1[n]=tabel1[n+1];
+					tabel1[n+1].give_persoon(hold);
+					}
+			}
+	}
+	return okS;
+}
 
 //error handling
 void errMsg(int code){
@@ -83,7 +111,7 @@ void errMsg(int code){
 int main(){
 personen *pers;
 
-pers = new personen(3);
+pers = new personen(AANTAL_PERSONEN);
 
 int keuze;
 sig err;
@@ -96,6 +124,7 @@ sig err;
 		cout<<"2: copy tabel 1 naar tabel 2 "<<endl;
 		cout<<"3: show tabel 1"<<endl;
 		cout<<"4: show tabel 2: "<<endl;
+		cout<<"5: bubble sort: "<<endl;
 		cout<<"kies :"; cin>>keuze;
 		cout<<endl;
 
@@ -103,12 +132,16 @@ sig err;
 		case 0: cout<<"end"<<endl;break;
 			break;
 		case 1: if ((err=pers->vul_personen())!=okS)errMsg(err);
+					pers->show_tabel1();
 		break;
 		case 2: if ((err=pers->copy_tabel())!=okS)errMsg(err);
 		break;
 		case 3: if ((err=pers->show_tabel1())!=okS)errMsg(err);
 		break;
 		case 4: if ((err=pers->show_tabel2())!=okS)errMsg(err);
+		break;
+		case 5: if ((err=pers->sort_bubble())!=okS)errMsg(err);
+					pers->show_tabel1();
 		break;
 		default: cout<<"onjuiste keuze "<<endl;;
 		}//switch

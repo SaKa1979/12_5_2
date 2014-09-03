@@ -8,7 +8,8 @@
 #ifndef INTERFACE_HPP_
 #define INTERFACE_HPP_
 
-#define NAAM_LEN 10
+#define NAAM_LEN 2
+#define AANTAL_PERSONEN 5
 typedef enum sig{okS, tabel1_leeg, tabel2_leeg, tabel1_vol} sig; //creeer sig type enum
 
 class persoon{
@@ -18,6 +19,8 @@ class persoon{
 public:
 	void vul_persoon(int *getal);
 	void show_persoon();
+	void give_persoon(char *naam);
+	void return_persoon(char *naam);
 }; //end class persoon
 
 class personen{
@@ -27,7 +30,7 @@ class personen{
 	persoon *tabel2;
 
 public:
-	personen(){aantal_personen=0;max_personen=0;}//constructor 1
+//	personen(){aantal_personen=0;max_personen=0;}//constructor 1
 	personen(int); //constructor 2
 	~personen() {
 		delete []tabel1;
@@ -39,6 +42,9 @@ public:
 	sig copy_tabel();
 	sig show_tabel1();
 	sig show_tabel2();
+	sig sort_bubble();
+	sig sort_bubble_flag();
+	sig straight_insertion();
 }; //end class personen
 
 
